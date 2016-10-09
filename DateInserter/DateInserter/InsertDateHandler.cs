@@ -1,8 +1,8 @@
 ﻿using MonoDevelop.Components.Commands;
 using MonoDevelop.Ide;
-using MonoDevelop.Ide.Gui;   
-using Mono.TextEditor;
-using System;  
+using MonoDevelop.Ide.Editor;
+using MonoDevelop.Ide.Gui;
+using System;
 
 namespace DateInserter
 {
@@ -11,17 +11,14 @@ namespace DateInserter
 		protected override void Run ()
 		{
 			Document doc = IdeApp.Workbench.ActiveDocument;
-			var textEditorData = doc.GetContent<ITextEditorDataProvider> ().GetTextEditorData ();  
-			string date = DateTime.Now.ToString ();  
-			textEditorData.InsertAtCaret (date); 
-
+			string date = DateTime.Now.ToString ();
+			doc.Editor.InsertAtCaret (date);
 		}
 
 		protected override void Update (CommandInfo info)
 		{
-			Document doc = IdeApp.Workbench.ActiveDocument;  
-			info.Enabled = doc != null && doc.GetContent<ITextEditorDataProvider> () != null;  
-
-		}   
+			Document doc = IdeApp.Workbench.ActiveDocument;
+			info.Enabled = doc != null && doc.Editor != null;
+		}
 	}
 }
